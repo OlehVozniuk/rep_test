@@ -1,0 +1,65 @@
+name: Build and Test Qt Project
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest # Використовуємо macOS для Qt
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          brew update
+          brew install qt
+
+      - name: Configure and Build
+        run: |
+          mkdir -p build
+          cd build
+          qmake ../Task2test/Task2.pro  # Правильний шлях до .pro файлу
+          make
+
+      - name: Test Execution
+        run: |
+          EXECUTABLE=$(find build -name Task2 -type f | head -n 1)
+          chmod +x $EXECUTABLE
+          $EXECUTABLE
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: QtBuild
+          path: build/
+
+  arduino:
+    runs-on: ubuntu-latest # Arduino використовує Ubuntu
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Arduino CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+          export PATH="$PATH:/home/runner/work/rep-test/rep-test/bin"  # Додаємо до PATH
+          arduino-cli core update-index
+          arduino-cli core install arduino:avr
+
+      - name: Compile Arduino Sketch
+        run: |
+          arduino-cli compile --fqbn arduino:avr:uno Task2test/sketch_sep26a.ino
+
+      - name: Upload Arduino artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ArduinoBuild
+          path: "*.hex"

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Communication>
+        <SendDelay>1000</SendDelay> <!-- Затримка між повідомленнями в мілісекундах -->
+        <AutoSend>false</AutoSend> <!-- Автоматична відправка: true або false -->
+    </Communication>
+</Configuration>

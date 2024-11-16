@@ -1,0 +1,31 @@
+# Qt Creator and QMake
+*.pro.user
+*.pro.user.*
+*.pro.user.*/ 
+*.qbs.user
+*.qbs.user.*
+*.creator.user
+*.creator.user.*
+*.autosave
+*.autosave.*
+*.qmlc
+*.jsc
+*.workspace
+
+# Build files
+build-*/
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.exe
+
+# Debugging files
+*.log
+*.cache
+*.pdb
+*.ilk
+
+# Mac-specific
+.DS_Store
